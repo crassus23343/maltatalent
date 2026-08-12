@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malta's Got Talent — Votação</title>
+<style>
+  :root{
+    --gold:#D4AF37;
+    --dark:#151217;
+    --card:#1F1B22;
+    --stage-red:#8C2F39;
+    --cream:#F3EAD8;
+    --muted:#A69A8D;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Georgia', 'Times New Roman', serif;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(212,175,55,0.08), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(140,47,57,0.12), transparent 45%),
+      var(--dark);
+    color:var(--cream);
+    min-height:100vh;
+    padding:40px 16px 80px;
+  }
+  .curtain{
+    text-align:center;
+    font-size:13px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+  }
+  .wrap{max-width:620px;margin:0 auto;}
+  header{
+    text-align:center;
+    margin-bottom:36px;
+  }
+  h1{
+    font-size:2.4rem;
+    margin:6px 0 10px;
+    font-weight:400;
+    letter-spacing:1px;
+  }
+  h1 span{color:var(--gold);}
+  .desc{
+    color:var(--muted);
+    font-size:0.98rem;
+    line-height:1.6;
+    max-width:460px;
+    margin:0 auto;
+  }
+  .warn{
+    display:inline-block;
+    margin-top:14px;
+    background:rgba(140,47,57,0.25);
+    border:1px solid var(--stage-red);
+    color:var(--cream);
+    padding:6px 14px;
+    border-radius:2px;
+    font-size:0.85rem;
+    font-family:Arial, sans-serif;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid rgba(212,175,55,0.25);
+    border-radius:3px;
+    padding:28px 26px;
+    margin-bottom:22px;
+    position:relative;
+  }
+  .card::before{
+    content:'';
+    position:absolute;
+    left:0;top:0;bottom:0;
+    width:3px;
+    background:var(--gold);
+  }
+  .qlabel{
+    font-family:Arial, sans-serif;
+    font-size:0.72rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:6px;
+  }
+  .qtitle{
+    font-size:1.15rem;
+    margin:0 0 4px;
+    font-weight:400;
+  }
+  .req{color:var(--stage-red); font-family:Arial, sans-serif; font-size:0.85rem;}
+  .options{margin-top:16px;display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 14px;
+    border:1px solid rgba(243,234,216,0.15);
+    border-radius:2px;
+    cursor:pointer;
+    transition:border-color .2s, background .2s;
+    font-family:Arial, sans-serif;
+    font-size:0.95rem;
+  }
+  .opt:hover{border-color:var(--gold); background:rgba(212,175,55,0.06);}
+  .opt input{accent-color:var(--gold); width:16px; height:16px;}
+  textarea{
+    width:100%;
+    margin-top:14px;
+    background:rgba(243,234,216,0.04);
+    border:1px solid rgba(243,234,216,0.2);
+    border-radius:2px;
+    color:var(--cream);
+    font-family:Arial, sans-serif;
+    font-size:0.95rem;
+    padding:12px;
+    min-height:90px;
+    resize:vertical;
+  }
+  textarea:focus, .opt input:focus{outline:2px solid var(--gold);}
+  .submit-row{text-align:center; margin-top:30px;}
+  button{
+    background:var(--gold);
+    color:var(--dark);
+    border:none;
+    font-family:Arial, sans-serif;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    font-size:0.85rem;
+    padding:14px 40px;
+    border-radius:2px;
+    cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
+  }
+  button:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(212,175,55,0.3);}
+  .note{
+    text-align:center;
+    color:var(--muted);
+    font-family:Arial, sans-serif;
+    font-size:0.8rem;
+    margin-top:16px;
+  }
+  .result{
+    display:none;
+    text-align:center;
+    font-family:Arial, sans-serif;
+    color:var(--gold);
+    margin-top:20px;
+    font-size:1rem;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="curtain">✦ 🎤 ✦ 🎭 ✦ 🎸 ✦</div>
+    <header>
+      <h1>Malta's Got <span>Talent</span></h1>
+      <div class="desc">
+        Chegou a hora de escolher o vencedor! Escolhe apenas um participante como o teu favorito.
+      </div>
+      <div class="warn">⚠️ Não podes votar em ti próprio</div>
+    </header>
+
+    <form id="votingForm">
+      <div class="card">
+        <div class="qlabel">Pergunta 1</div>
+        <p class="qtitle">Qual foi o teu participante favorito? <span class="req">*</span></p>
+        <div class="options">
+          <label class="opt"><input type="radio" name="favorito" value="p1" required> 🎤 [Nome do participante]</label>
+          <label class="opt"><input type="radio" name="favorito" value="p2"> 🎭 [Nome do participante]</label>
+          <label class="opt"><input type="radio" name="favorito" value="p3"> 🎸 [Nome do participante]</label>
+          <label class="opt"><input type="radio" name="favorito" value="p4"> 💃 [Nome do participante]</label>
+          <label class="opt"><input type="radio" name="favorito" value="p5"> 🎪 [Nome do participante]</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="qlabel">Pergunta 2</div>
+        <p class="qtitle">O que mais gostaste na apresentação?</p>
+        <div class="options">
+          <label class="opt"><input type="radio" name="gostou"> 🎭 Talento</label>
+          <label class="opt"><input type="radio" name="gostou"> 🎨 Criatividade</label>
+          <label class="opt"><input type="radio" name="gostou"> 😂 Entretenimento</label>
+          <label class="opt"><input type="radio" name="gostou"> 🎤 Apresentação</label>
+          <label class="opt"><input type="radio" name="gostou"> 🔥 Conjunto</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="qlabel">Pergunta 3</div>
+        <p class="qtitle">Deixa uma mensagem para os participantes.</p>
+        <textarea name="mensagem" placeholder="Escreve aqui a tua mensagem..."></textarea>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit">Enviar Voto</button>
+        <div class="note">Apenas 1 resposta por pessoa · Votação encerra 5 min após abertura</div>
+      </div>
+      <div class="result" id="resultMsg">🏆 Voto registado! Aguarda o anúncio do vencedor.</div>
+    </form>
+  </div>
+
+<script>
+  // ============================================
+  // CONFIGURAÇÃO — cola aqui o URL do teu webhook do Discord
+  // Canal → Editar Canal → Integrações → Webhooks → Criar Webhook → Copiar URL
+  // ============================================
+  const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1536892603239243816/-wkojch1Fb41og2ebaoYk8F3RZHzWs5Qxr8uGB6NklogrHkQtuZ8yQQW67_-C_1NuyBq";
+
+  const nomeParticipante = {
+    p1: "🎤 [Nome do participante]",
+    p2: "🎭 [Nome do participante]",
+    p3: "🎸 [Nome do participante]",
+    p4: "💃 [Nome do participante]",
+    p5: "🎪 [Nome do participante]"
+  };
+
+  document.getElementById('votingForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const btn = this.querySelector('button');
+    const form = new FormData(this);
+
+    const favorito = nomeParticipante[form.get('favorito')] || "—";
+    const gostou = form.get('gostou') || "—";
+    const mensagem = form.get('mensagem') || "—";
+
+    const payload = {
+      embeds: [{
+        title: "🏆 Novo Voto — Malta's Got Talent",
+        color: 14329120, // dourado
+        fields: [
+          { name: "Favorito", value: favorito, inline: true },
+          { name: "Gostou mais de", value: gostou, inline: true },
+          { name: "Mensagem", value: mensagem }
+        ],
+        timestamp: new Date().toISOString()
+      }]
+    };
+
+    if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL.startsWith("COLA_AQUI")) {
+      alert("⚠️ Webhook do Discord ainda não configurado no código (variável DISCORD_WEBHOOK_URL).");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "A enviar...";
+
+    try {
+      await fetch(DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      document.getElementById('resultMsg').style.display = 'block';
+      btn.style.opacity = 0.5;
+      btn.textContent = "Enviado ✓";
+    } catch (err) {
+      alert("Erro ao enviar o voto. Verifica a ligação e tenta novamente.");
+      btn.disabled = false;
+      btn.textContent = "Enviar Voto";
+    }
+  });
+</script>
+</body>
+</html>
